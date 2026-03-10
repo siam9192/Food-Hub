@@ -31,11 +31,12 @@ app.use(
 			if (!origin) return callback(null, true);
 
 			// Check if origin is in allowedOrigins or matches Vercel preview pattern
+		
 			const isAllowed =
 				allowedOrigins.includes(origin) ||
 				/^https:\/\/next-blog-client.*\.vercel\.app$/.test(origin) ||
 				/^https:\/\/.*\.vercel\.app$/.test(origin); // Any Vercel deployment
-
+           
 			if (isAllowed) {
 				callback(null, true);
 			} else {

@@ -24,22 +24,21 @@ async function seedAdmin() {
 				email: adminData.email!,
 			},
 		});
-
+     
 		if (existingUser) {
 			throw new Error("User already exists!!");
 		}
-
-		const signUpAdmin = await fetch("http://localhost:4000/api/auth/sign-up/email", {
+   
+		const signUpAdmin = await fetch(`http://localhost:${requireEnv("PORT")}/api/auth/sign-up/email`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
-				origin: "http://localhost:3000",
+				origin: `${requireEnv("PORT")}`,
 			},
 			body: JSON.stringify(adminData),
 		});
-
-		console.log(signUpAdmin);
-
+       
+		
 		if (signUpAdmin.ok) {
 			console.log("*****Admin Created");
 			await prisma.user.update({

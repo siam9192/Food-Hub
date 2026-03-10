@@ -7,6 +7,8 @@
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"dev": "npx tsx watch src/server.ts",
 		"seed:admin": "npx tsx src/scripts/seedAdmin.ts",
+		"seed:providers": "npx tsx src/scripts/seedProvider.ts",
+		"seed:meals": "npx tsx src/scripts/seedMeals.ts",
 		"build": "prisma generate && tsup src/index.ts --format esm --platform node --target node20 --outDir api --external pg-native",
 		"postinstall": "prisma generate"
 	},

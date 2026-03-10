@@ -19,11 +19,12 @@ export const prisma = basePrisma.$extends({
 					const existingProfile = await basePrisma.providerProfile.findUnique({
 						where: { userId: user.id as string },
 					});
+			         
 
 					if (!existingProfile) {
 						await basePrisma.providerProfile.create({
 							data: {
-								userId: user.id ,
+								userId: user.id as string  ,
 								restaurantName: "",
 								address: "",
 								phone: "",
