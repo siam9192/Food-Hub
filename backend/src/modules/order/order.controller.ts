@@ -3,6 +3,7 @@ import { UserRole } from "../../../generated/prisma/enums";
 import { AppError } from "../../errors/AppError";
 import { catchAsync } from "../../utils/catchAsync";
 import { orderService } from "./order.service";
+import { getIo } from "../../socket/init";
 
 const createOrder: RequestHandler = catchAsync(async (req, res) => {
 	if (!req.user) {
@@ -14,6 +15,9 @@ const createOrder: RequestHandler = catchAsync(async (req, res) => {
 	}
 
 	const result = await orderService.createOrder(req.user.id, req.body);
+    
+	
+
 
 	res.status(201).json({
 		success: true,

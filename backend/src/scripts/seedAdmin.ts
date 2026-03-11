@@ -24,7 +24,7 @@ async function seedAdmin() {
 				email: adminData.email!,
 			},
 		});
-     
+       console.log(existingUser)
 		if (existingUser) {
 			throw new Error("User already exists!!");
 		}
@@ -51,6 +51,8 @@ async function seedAdmin() {
 			});
 			console.log("***** Email verification status updated");
 		}
+
+		else throw new Error()
 		console.log(`*********** Success *********`);
 	} catch (error) {
 		console.error(error);

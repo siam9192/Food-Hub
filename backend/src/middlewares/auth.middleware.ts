@@ -13,7 +13,7 @@ export const authMiddleware = (...roles: UserRole[]) => {
 			const session = await auth.api.getSession({
 				headers: req.headers as any,
 			});
-
+            
 			if (!session) {
 				return res.status(401).json({
 					success: false,

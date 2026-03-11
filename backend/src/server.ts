@@ -1,21 +1,36 @@
 import app from "./app";
 import { prisma } from "./lib/prisma";
-
+import { Server } from "socket.io";
+import { createServer } from "node:http";
+import { initIo } from "./socket/init";
 const PORT = process.env.PORT || 4000;
 
-async function main() {
-	try {
-		await prisma.$connect();
-		console.log("Connected to the database successfully.");
+const server = createServer(app);
 
-		app.listen(PORT, () => {
-			console.log(`Server is running on http://localhost:${PORT}`);
-		});
-	} catch (error) {
-		console.error("An error occurred: ", error);
-		await prisma.$disconnect();
-		process.exit(1);
-	}
+const io = new Server(server, {
+  cors: {
+    origin: "**",
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
+    exposedHeaders: ["Set-Cookie"],
+  },
+});
+
+initIo(io);
+
+async function main() {
+  try {
+    await prisma.$connect();
+    console.log("Connected to the database successfully.");
+
+    server.listen(PORT, () => {
+      console.log(`Server is running on http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.error("An error occurred: ", error);
+    await prisma.$disconnect();
+    process.exit(1);
+  }
 }
 
 main();
