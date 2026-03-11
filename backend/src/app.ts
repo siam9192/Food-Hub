@@ -12,6 +12,7 @@ import { orderRoute } from "./modules/order/order.route";
 import { providerRoute } from "./modules/provider/provider.route";
 import { reviewRoute } from "./modules/review/review.route";
 import { userRoute } from "./modules/user/user.route";
+import { metaRouter } from "./modules/meta/meta.router";
 
 const app: Application = express();
 
@@ -61,7 +62,7 @@ app.use("/api", providerRoute);
 app.use("/api", orderRoute);
 app.use("/api", reviewRoute);
 app.use("/api", userRoute);
-
+app.use("/api", metaRouter);
 app.get("/", (req, res) => {
 	res.send("Hello, World!");
 });
