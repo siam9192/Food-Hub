@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/providers/AuthContext";
+import SocketProvider from "@/providers/SocketProvider";
 
 const inter = Inter({
 	subsets: ["latin"],
@@ -45,10 +46,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 					disableTransitionOnChange
 				>
 					<AuthProvider>
-						<CartProvider>
+						<SocketProvider>
+							<CartProvider>
 							<Toaster richColors />
 							{children}
 						</CartProvider>
+						</SocketProvider>
 					</AuthProvider>
 				</ThemeProvider>
 			</body>

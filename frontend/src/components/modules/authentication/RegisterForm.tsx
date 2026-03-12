@@ -154,7 +154,7 @@ export function RegisterForm() {
 									onValueChange={value => field.handleChange(value as "CUSTOMER" | "PROVIDER")}
 									defaultValue={field.state.value}
 								>
-									<SelectTrigger className='h-10 rounded-xl border-2 bg-muted/20 font-bold text-xs'>
+									<SelectTrigger className='h-10 rounded-xl border-2 bg-muted/20 font-bold text-xs w-full'>
 										<SelectValue />
 									</SelectTrigger>
 									<SelectContent>

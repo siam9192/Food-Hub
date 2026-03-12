@@ -54,7 +54,7 @@ export function LoginForm() {
       callbackURL: window.location.origin,
     });
 
-    console.log(res);
+   
   };
 
   return (
