@@ -143,7 +143,7 @@ const updateOrderStatus: RequestHandler = catchAsync(async (req, res) => {
 	}
 
 	const result = await providerService.updateOrderStatus(provider.id, orderId as string, status);
-
+   
 	res.status(200).json({
 		success: true,
 		data: result,

@@ -45,7 +45,7 @@ async function getAllSummariesForProvider(authUser: AuthUser) {
     _count: true,
   });
 
-  const avgRatting = await prisma.review.groupBy({
+  const avgRating = await prisma.review.groupBy({
     by: "id",
     where: {
       order: {
@@ -61,7 +61,7 @@ async function getAllSummariesForProvider(authUser: AuthUser) {
 
   const result = {
     totalRevenue: {
-      value: totalRevenue[0]?._sum,
+      value: totalRevenue[0]?._sum.totalPrice,
       progress: generateFakeProgress(),
     },
     totalCustomers: {
@@ -78,7 +78,7 @@ async function getAllSummariesForProvider(authUser: AuthUser) {
     },
     avgRatting: {
       value: {
-        value: avgRatting[0]?._avg,
+        value: avgRating[0]?._avg.rating,
         progress: generateFakeProgress(),
       },
     },

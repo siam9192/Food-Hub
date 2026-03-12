@@ -1,6 +1,8 @@
 import { Meal, OrderStatus, ProviderProfile } from "../../../generated/prisma/client";
 import { AppError } from "../../errors/AppError";
 import { prisma } from "../../lib/prisma";
+import { getIo } from "../../socket/init";
+import { getUsersByIds } from "../../socket/store-connections";
 
 // ------------------- PROFILE ------------------------
 
@@ -219,9 +221,11 @@ const deleteMeal = async (providerId: string, mealId: string) => {
 // ------------------- UPDATE ORDER STATUS ------------------------
 
 const updateOrderStatus = async (providerId: string, orderId: string, newStatus: OrderStatus) => {
+
 	if (!providerId || !orderId) {
 		throw new AppError(400, "Provider ID and Order ID are required");
 	}
+		
 
 	const order = await prisma.order.findFirst({
 		where: {
@@ -249,6 +253,30 @@ const updateOrderStatus = async (providerId: string, orderId: string, newStatus:
 	if (!validTransitions[order.status].includes(newStatus)) {
 		throw new AppError(400, "Invalid order status transition");
 	}
+
+
+	  const messages: Record<OrderStatus, string | null> = {
+		[OrderStatus.PLACED]: "Your order has been placed",
+		[OrderStatus.PREPARING]: "Your order is being prepared",
+		[OrderStatus.READY]: "Your order is ready for pickup/delivery",
+		[OrderStatus.DELIVERED]: "Your order has been delivered",
+		[OrderStatus.CANCELLED]: "Your order has been canceled",
+	  };
+	
+	  const io = getIo();
+	  const customerUserId = order.customerId;
+	
+	  if (io && customerUserId) {
+		const connections = getUsersByIds(customerUserId);
+		console.log("Connections",connections)
+		if (connections.length) {
+		  const socketIds = connections.map((c) => c.socketId);
+	
+		  io.to(socketIds).emit(`order:${newStatus.toLowerCase()}`, {
+			message: messages[newStatus],
+		  });
+		}
+	  }
 
 	return prisma.order.update({
 		where: { id: orderId },

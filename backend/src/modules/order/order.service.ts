@@ -85,39 +85,42 @@ const createOrder = async (userId: string, payload: CreateOrderPayload) => {
     );
   }
 
+  
   const io = getIo();
-  if (!io || meals.length === 0) return;
+  if (io) {
+    // Step 1: Collect provider user IDs and count orders per provider
+    const providerOrdersCount = new Map<string, number>();
 
-  // Step 1: Collect provider user IDs and count orders per provider
-  const providerOrdersCount = new Map<string, number>();
-
-  for (const meal of meals) {
-    const id = meal.provider.userId;
-    providerOrdersCount.set(id, (providerOrdersCount.get(id) || 0) + 1);
-  }
-
-  // Step 2: Get unique provider IDs
-  const providerUniqueIds = Array.from(providerOrdersCount.keys());
-
-  // Step 3: Collect all active connections for these providers
-  const allConnections: { socketId: string; user_id: string }[] = [];
-
-  for (const id of providerUniqueIds) {
-    const connections = getUsersByIds(id);
-    if (connections.length) {
-      allConnections.push(...connections);
+    for (const meal of meals) {
+      const id = meal.provider.userId;
+      providerOrdersCount.set(id, (providerOrdersCount.get(id) || 0) + 1);
     }
-  }
+    console.log("Provider ids", providerOrdersCount.keys());
+    // Step 2: Get unique provider IDs
+    const providerUniqueIds = Array.from(providerOrdersCount.keys());
 
-  // Step 4: Emit notifications
-  allConnections.forEach((connection) => {
-    const orderCount = providerOrdersCount.get(connection.user_id);
-    if (orderCount && orderCount > 0) {
-      io.emit(connection.socketId, "order:placed", {
-        message: `You have received ${orderCount} new order${orderCount > 1 ? "s" : ""}`,
-      });
+    // Step 3: Collect all active connections for these providers
+    const allConnections: { socketId: string; id: string }[] = [];
+
+    for (const id of providerUniqueIds) {
+      const connections = getUsersByIds(id);
+      if (connections.length) {
+        allConnections.push(...connections);
+      }
     }
-  });
+
+    // Step 4: Emit notifications
+    allConnections.forEach((connection) => {
+      const orderCount = providerOrdersCount.get(connection.id);
+      console.log("connection", orderCount);
+      if (orderCount && orderCount > 0) {
+        console.log("event emitted");
+        io.to(connection.socketId).emit("order:placed", {
+          message: `You have received ${orderCount} new order${orderCount > 1 ? "s" : ""}`,
+        });
+      }
+    });
+  }
 
   return order;
 };
@@ -293,6 +296,7 @@ const updateOrderStatus = async (orderId: string, newStatus: OrderStatus) => {
 
   if (io && customerUserId) {
     const connections = getUsersByIds(customerUserId);
+    console.log("Connections",connections)
     if (connections.length) {
       const socketIds = connections.map((c) => c.socketId);
 

@@ -1,4 +1,4 @@
-import app from "./app";
+import app, { originCallback } from "./app";
 import { prisma } from "./lib/prisma";
 import { Server } from "socket.io";
 import { createServer } from "node:http";
@@ -9,11 +9,13 @@ const server = createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "**",
+    origin: originCallback,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
     exposedHeaders: ["Set-Cookie"],
+    credentials:true
   },
+  
 });
 
 initIo(io);

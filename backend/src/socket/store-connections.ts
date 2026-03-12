@@ -1,7 +1,7 @@
 import { UserRole } from "../../generated/prisma/enums";
 
 export interface ConnectedUsers {
-  user_id: string;
+  id: string;
   role: UserRole;
 }
 
@@ -19,16 +19,21 @@ export function getUserBySocketId(socketId: string) {
   return connectedUsers.get(socketId) ?? null;
 }
 
+export function getAllUsers () {
+return Array.from(connectedUsers)
+}
+
 export function getUsersByIds(...ids: string[]) {
   const users: (ConnectedUsers & { socketId: string })[] = [];
-
   for (const [socketId, user] of connectedUsers.entries()) {
-    if (ids.includes(user.user_id)) {
+    if (ids.includes(user.id)) {
       users.push({
         socketId,
         ...user,
       });
     }
   }
+
+  console.log(users)
   return users;
 }

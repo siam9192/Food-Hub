@@ -6,6 +6,7 @@ import { UserRole } from "../../generated/prisma/enums";
 
 export function socketAuth() {
   return async (socket: Socket, next: (err?: Error) => void) => {
+    
     try {
       const session = await auth.api.getSession({
         headers: socket.handshake.headers as any,
@@ -33,7 +34,7 @@ export function socketAuth() {
         name: session?.user.name!,
         role: userRole,
       };
-
+      
       next();
     } catch (error) {}
   };

@@ -6,7 +6,7 @@ model ProviderProfile {
     address        String
     phone          String
     isOpen         Boolean @default(true)
-
+    avgRating        Int @default(0)
     user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
     meals  Meal[]
     orders Order[]

@@ -14,7 +14,7 @@ const createReview: RequestHandler = catchAsync(async (req, res) => {
 	}
 
 	const result = await reviewService.createReview(req.user.id, req.body);
-
+	
 	res.status(201).json({
 		success: true,
 		data: result,
