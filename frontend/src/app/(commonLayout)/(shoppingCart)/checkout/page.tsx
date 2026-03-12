@@ -43,7 +43,7 @@ export default function CheckoutPage() {
 
 			if (!result.success) throw new Error(result.message);
 
-			clearCart();
+			// clearCart();
 			toast.success("Order Placed!", { description: "Your meal is being prepared." });
 			router.push("/dashboard/orders");
 		} catch (err: any) {

@@ -8,53 +8,55 @@ import { AuthProvider } from "@/providers/AuthContext";
 import SocketProvider from "@/providers/SocketProvider";
 
 const inter = Inter({
-	subsets: ["latin"],
-	variable: "--font-inter",
+  subsets: ["latin"],
+  variable: "--font-inter",
 });
 
 const jakarta = Plus_Jakarta_Sans({
-	subsets: ["latin"],
-	variable: "--font-jakarta",
+  subsets: ["latin"],
+  variable: "--font-jakarta",
 });
 
 const mono = JetBrains_Mono({
-	subsets: ["latin"],
-	variable: "--font-mono",
+  subsets: ["latin"],
+  variable: "--font-mono",
 });
 
 export const metadata: Metadata = {
-	title: "FoodHub",
-	description: "Order food from your favorite restaurants",
+  title: "FoodHub",
+  description: "Order food from your favorite restaurants",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-	return (
-		<html lang='en' suppressHydrationWarning>
-			<body
-				className={`
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`
 					${inter.variable}
 					${jakarta.variable}
           ${mono.variable}
 					font-sans
 					antialiased
 				`}
-			>
-				<ThemeProvider
-					attribute='class'
-					defaultTheme='system'
-					enableSystem
-					disableTransitionOnChange
-				>
-					<AuthProvider>
-						<SocketProvider>
-							<CartProvider>
-							<Toaster richColors />
-							{children}
-						</CartProvider>
-						</SocketProvider>
-					</AuthProvider>
-				</ThemeProvider>
-			</body>
-		</html>
-	);
+      >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <AuthProvider>
+            <SocketProvider>
+              <CartProvider>{children}</CartProvider>
+            </SocketProvider>
+          </AuthProvider>
+          <Toaster richColors />
+        </ThemeProvider>
+      </body>
+    </html>
+  );
 }

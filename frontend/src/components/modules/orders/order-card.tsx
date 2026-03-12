@@ -25,7 +25,7 @@ export function OrderCard({ order }: { order: Order }) {
 							</span>
 							<span className='flex items-center gap-1'>
 								<Receipt size={12} className='text-primary' />
-								ID: {order.id.slice(0, 8).toUpperCase()}
+								ID: {order.id.slice(-6).toUpperCase()}
 							</span>
 						</div>
 					</div>
