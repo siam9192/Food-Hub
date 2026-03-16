@@ -11,6 +11,7 @@ import { useCart } from "@/providers/CartContext";
 export function AddToCart({ meal }: { meal: any }) {
 	const [quantity, setQuantity] = useState(1);
 	const router = useRouter();
+	
 	const { addToCart } = useCart();
 
 	const handleAddToCart = () => {
@@ -24,7 +25,7 @@ export function AddToCart({ meal }: { meal: any }) {
 			name: meal.name,
 			price: meal.price,
 			quantity,
-			providerId: undefined, // You can map this if needed
+			providerId: meal.providerId, // You can map this if needed
 		});
 
 		toast.success("Added to your bag!", {

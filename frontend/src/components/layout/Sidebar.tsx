@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { SidebarLink } from "@/components/ui/SidebarLink";
 import { authClient } from "@/lib/auth-client";
 import {
+	Hamburger,
 	Home,
 	Layers,
 	LayoutDashboard,
@@ -44,23 +45,25 @@ export function Sidebar({ role }: SidebarProps) {
 		<aside className='fixed left-0 top-0 z-40 hidden md:flex h-screen w-64 flex-col border-r bg-card/50 backdrop-blur-xl'>
 			{/* BRAND & QUICK EXIT */}
 			<div className='px-6 py-6'>
-				<div className='flex items-center gap-2 mb-6'>
-					<div className='bg-primary p-1.5 rounded-lg'>
-						<span className='text-xl'>🍱</span>
-					</div>
-					<div>
-						<h2 className='text-sm font-bold tracking-tight'>FoodHub</h2>
-						<p className='text-[10px] uppercase tracking-widest text-muted-foreground font-semibold'>
-							{role} Panel
-						</p>
-					</div>
-				</div>
+			    <Link
+            href="/"
+            className="flex items-center gap-2 transition-transform hover:scale-105"
+          >
+            <div className="bg-primary p-1 rounded-lg shadow-lg shadow-primary/20">
+              <span className="text-xl">
+                <Hamburger  size={25}/>
+              </span>
+            </div>
+            <span className="text-xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
+              FoodHub
+            </span>
+          </Link>
 
 				<Button
 					variant='outline'
 					size='sm'
 					asChild
-					className='w-full justify-start gap-2 text-xs font-medium hover:bg-muted'
+					className='mt-4 w-full justify-start gap-2 text-xs font-medium hover:bg-muted'
 				>
 					<Link href='/'>
 						<Home className='h-3.5 w-3.5' />

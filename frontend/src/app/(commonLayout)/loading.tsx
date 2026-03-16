@@ -3,55 +3,66 @@
 import { UtensilsCrossed } from "lucide-react";
 
 export default function Loading() {
-	return (
-		<div className='fixed inset-0 z-[100] flex flex-col items-center justify-center bg-background'>
-			{/* Background Glow Accent */}
-			<div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-emerald-500/10 blur-[100px] rounded-full' />
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-background overflow-hidden">
+      {/* Background glow */}
+      <div className="absolute w-[500px] h-[500px] bg-primary/10 blur-[160px] rounded-full" />
 
-			<div className='relative flex flex-col items-center gap-6'>
-				{/* BRAND LOGO WITH PULSE */}
-				<div className='relative'>
-					{/* Outer Ring Animation */}
-					<div className='absolute inset-0 rounded-3xl bg-emerald-500/20 animate-ping duration-[2000ms]' />
+      <div className="relative flex flex-col items-center gap-8">
+        {/* Animated Logo */}
+        <div className="relative flex items-center justify-center">
+          {/* rotating ring */}
+          <div className="absolute w-28 h-28 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
 
-					<div className='relative bg-emerald-600 p-4 rounded-[2rem] shadow-2xl shadow-emerald-500/40 border-4 border-background'>
-						<UtensilsCrossed className='text-white' size={40} strokeWidth={2.5} />
-					</div>
-				</div>
+          {/* pulse ring */}
+          <div className="absolute w-28 h-28 bg-primary/20 rounded-full animate-ping" />
 
-				{/* BRAND TEXT */}
-				<div className='text-center space-y-2'>
-					<h2 className='text-3xl font-black tracking-tighter italic uppercase animate-pulse'>
-						Food<span className='text-emerald-500'>Hub</span>
-					</h2>
+          {/* main logo */}
+          <div className="relative bg-primary p-5 rounded-3xl shadow-xl shadow-primary/40">
+            <UtensilsCrossed
+              className="text-primary-foreground"
+              size={42}
+              strokeWidth={2.5}
+            />
+          </div>
+        </div>
 
-					{/* PRECISE PROGRESS BAR */}
-					<div className='w-40 h-1.5 bg-muted rounded-full overflow-hidden border border-muted shadow-inner'>
-						<div className='h-full bg-emerald-500 rounded-full animate-loading-bar w-[40%]' />
-					</div>
+        {/* Brand */}
+        <div className="text-center space-y-3">
+          <h2 className="text-3xl font-black tracking-tight">
+            Food<span className="text-primary">Hub</span>
+          </h2>
 
-					<p className='text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground pt-2'>
-						Preparing your kitchen...
-					</p>
-				</div>
-			</div>
+          {/* modern loading bar */}
+          <div className="w-48 h-2 bg-muted rounded-full overflow-hidden">
+            <div className="h-full bg-gradient-to-r from-primary via-pink-400 to-primary animate-loading-bar rounded-full" />
+          </div>
 
-			<style jsx>{`
-				@keyframes loading-bar {
-					0% {
-						transform: translateX(-100%);
-					}
-					50% {
-						transform: translateX(0);
-					}
-					100% {
-						transform: translateX(100%);
-					}
-				}
-				.animate-loading-bar {
-					animation: loading-bar 1.5s infinite linear;
-				}
-			`}</style>
-		</div>
-	);
+          <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">
+            Preparing your food...
+          </p>
+        </div>
+      </div>
+
+      <style jsx>{`
+        @keyframes loading-bar {
+          0% {
+            transform: translateX(-100%);
+            width: 40%;
+          }
+          50% {
+            transform: translateX(20%);
+            width: 60%;
+          }
+          100% {
+            transform: translateX(120%);
+            width: 40%;
+          }
+        }
+        .animate-loading-bar {
+          animation: loading-bar 1.6s infinite ease-in-out;
+        }
+      `}</style>
+    </div>
+  );
 }

@@ -1,5 +1,5 @@
 export type CartItem = {
-	providerId: any;
+	providerId: string;
 	mealId: string;
 	name: string;
 	price: number;

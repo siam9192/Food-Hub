@@ -4,6 +4,7 @@ export type Provider = {
 	name: string;
 	description?: string;
 	image?: string;
+	avgRating:number
 	isOpen: boolean;
 	mealsCount: number;
 };

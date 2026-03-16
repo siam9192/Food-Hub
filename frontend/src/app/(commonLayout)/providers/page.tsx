@@ -28,7 +28,7 @@ export default async function ProvidersPage() {
 						</span>
 					</div>
 					<h1 className='text-5xl font-black tracking-tight italic uppercase'>
-						Discover <span className='text-emerald-500'>Chefs</span>
+						Discover <span className='text-primary'>Chefs</span>
 					</h1>
 					<p className='text-muted-foreground font-medium italic max-w-md'>
 						Browse trusted home chefs and restaurants delivering fresh flavors near you.
