@@ -1,15 +1,13 @@
+import AllSummaries from "@/components/modules/provider/all-summaries";
 import { Button } from "@/components/ui/button";
 import {
 	ArrowUpRight,
-	Clock,
-	DollarSign,
 	ShoppingBag,
-	Star,
-	TrendingUp,
 	Users,
 } from "lucide-react";
 
 export default function ProviderOverview() {
+	
 	return (
 		<div className='space-y-10 pb-10'>
 			{/* --- WELCOME HEADER --- */}
@@ -28,58 +26,7 @@ export default function ProviderOverview() {
 			</div>
 
 			{/* --- STATS GRID --- */}
-			<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6'>
-				{[
-					{
-						label: "Total Revenue",
-						value: "17,66,322.22",
-						icon: DollarSign,
-						color: "text-emerald-500",
-						bg: "bg-emerald-500/10",
-					},
-					{
-						label: "Active Orders",
-						value: "12",
-						icon: Clock,
-						color: "text-orange-500",
-						bg: "bg-orange-500/10",
-					},
-					{
-						label: "Total Customers",
-						value: "1,240",
-						icon: Users,
-						color: "text-blue-500",
-						bg: "bg-blue-500/10",
-					},
-					{
-						label: "Avg. Rating",
-						value: "4.9",
-						icon: Star,
-						color: "text-yellow-500",
-						bg: "bg-yellow-500/10",
-					},
-				].map((stat, i) => (
-					<div
-						key={i}
-						className='bg-card border-2 border-muted p-6 rounded-[2rem] hover:border-emerald-500/30 transition-all group'
-					>
-						<div className='flex items-center justify-between mb-4'>
-							<div className={`p-3 ${stat.bg} ${stat.color} rounded-2xl`}>
-								<stat.icon size={24} />
-							</div>
-							<div className='flex items-center gap-1 text-[10px] font-black text-emerald-500 bg-emerald-500/5 px-2 py-1 rounded-lg'>
-								<TrendingUp size={12} /> +12%
-							</div>
-						</div>
-						<p className='text-[10px] font-black uppercase tracking-widest text-muted-foreground'>
-							{stat.label}
-						</p>
-						<h3 className='text-2xl font-black italic uppercase mt-1'>
-							{stat.label === "Total Revenue" ? `৳${stat.value}` : stat.value}
-						</h3>
-					</div>
-				))}
-			</div>
+			<AllSummaries/>
 
 			<div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
 				{/* --- RECENT ORDERS TABLE (Simplified) --- */}

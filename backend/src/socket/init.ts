@@ -22,7 +22,6 @@ export function initIo(io: Server) {
     if (user) {
       setConnectedUser(socket.id, socket.data.user);
     }
-    console.log(user)
     console.log(`🟢 Socket connected: ${socket.id}`);
   });
 }

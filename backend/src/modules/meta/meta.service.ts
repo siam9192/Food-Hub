@@ -65,22 +65,16 @@ async function getAllSummariesForProvider(authUser: AuthUser) {
       progress: generateFakeProgress(),
     },
     totalCustomers: {
-      value: {
-        value: totalCustomers[0]?._count,
-        progress: generateFakeProgress(),
-      },
+      value: totalCustomers[0]?._count,
+      progress: generateFakeProgress(),
     },
     activeOrders: {
-      value: {
-        value: activeOrders[0]?._count,
-        progress: generateFakeProgress(),
-      },
+      value: activeOrders[0]?._count,
+      progress: generateFakeProgress(),
     },
-    avgRatting: {
-      value: {
-        value: avgRating[0]?._avg.rating,
-        progress: generateFakeProgress(),
-      },
+    avgRating: {
+      value: avgRating[0]?._avg.rating,
+      progress: generateFakeProgress(),
     },
   };
 

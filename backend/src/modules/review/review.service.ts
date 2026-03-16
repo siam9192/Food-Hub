@@ -51,6 +51,7 @@ const createReview = async (
   const review = await prisma.review.create({
     data: {
       rating: payload.rating,
+      
       comment: payload.comment ?? null,
       orderId: payload.orderId,
       mealId: payload.mealId,

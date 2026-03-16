@@ -14,8 +14,8 @@ interface Props {
 
 const orderRoutes: Record<string, string[]> = {
   admin: ["/admin-dashboard/orders"],
-  customer: ["customer-dashboard/orders"],
-  provider: ["customer-dashboard/all-orders", "customer-dashboard/all-orders"],
+  customer: ["/dashboard/orders"],
+  provider: ["/provider-dashboard/overview","/provider-dashboard-orders", "/provider-dashboard/all-orders"],
 };
 
 const events = [
