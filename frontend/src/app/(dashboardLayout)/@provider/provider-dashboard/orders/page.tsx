@@ -18,7 +18,7 @@ export default function ProviderOrdersPage() {
             </span>
           </div>
           <h1 className="text-4xl font-black tracking-tight italic uppercase">
-            Incoming <span className="text-emerald-500">Orders</span>
+            Incoming <span className="text-primary">Orders</span>
           </h1>
           <p className="text-muted-foreground font-medium">
             Manage and track your kitchen&apos;s active flow.

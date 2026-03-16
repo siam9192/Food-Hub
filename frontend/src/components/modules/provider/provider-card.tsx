@@ -50,7 +50,7 @@ export function ProviderCard({ provider }: { provider: Provider }) {
           </div>
 
           <div className="flex items-center gap-1 text-muted-foreground">
-            <MapPin size={12} className="text-emerald-500" />
+            <MapPin size={12} className="text-primary" />
             <span className="text-[10px] font-bold uppercase tracking-wider truncate">
               {provider.address || "Local Kitchen"}
             </span>
@@ -77,7 +77,7 @@ export function ProviderCard({ provider }: { provider: Provider }) {
           >
             <Link
               href={`/providers/${provider.id}`}
-              className="flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-foreground group-hover/btn:text-emerald-500 transition-colors"
+              className="flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-foreground group-hover/btn:text-primary transition-colors"
             >
               View Menu{" "}
               <ArrowRight

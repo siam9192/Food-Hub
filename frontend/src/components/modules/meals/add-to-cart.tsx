@@ -20,11 +20,13 @@ export function AddToCart({ meal }: { meal: any }) {
 			return;
 		}
 
+		
 		addToCart({
 			mealId: meal.id,
 			name: meal.name,
 			price: meal.price,
 			quantity,
+			image:meal.imageUrl,
 			providerId: meal.providerId, // You can map this if needed
 		});
 

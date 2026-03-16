@@ -1,8 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
 import { useCart } from "@/providers/CartContext";
+
 import {
   ArrowRight,
   ChevronLeft,
@@ -12,9 +14,19 @@ import {
   Trash2,
 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function CartPage() {
-  const { items, removeFromCart, updateQuantity, totalPrice } = useCart();
+  const {
+    items,
+    removeFromCart,
+    updateQuantity,
+    selectItems,
+    unselectItems,
+    totalPrice,
+  } = useCart();
+  const router = useRouter()
+  const selected = items.filter((item) => item.selected === true);
 
   if (!items.length) {
     return (
@@ -40,10 +52,10 @@ export default function CartPage() {
   }
 
   return (
-    <div className="container py-12 lg:py-20 max-w-4xl mx-auto px-4 space-y-10">
+    <div className="container py-12 lg:py-20 md:max-w-4xl mx-auto md:px-4 space-y-10">
       <div className="flex items-center justify-between">
         <div className="space-y-1">
-          <h1 className="text-4xl font-black tracking-tight">
+          <h1 className="text-3xl md:text-4xl font-black tracking-tight">
             Review <span className="text-primary">Bag</span>
           </h1>
           <p className="text-muted-foreground text-sm font-medium">
@@ -69,53 +81,147 @@ export default function CartPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
         {/* ITEMS LIST */}
         <div className="lg:col-span-7 space-y-4">
-          {items.map((item) => (
-            <div
-              key={item.mealId}
-              className="flex items-center gap-4 bg-card border border-muted p-5 rounded-[2rem] shadow-sm transition-all hover:shadow-md"
-            >
-              <div className="flex-1 space-y-1">
-                <Link href={`/meals/${item.mealId}`} >
-				   <p className="font-black text-lg hover:border-b-2 border-secondary w-fit">{item.name}</p>
-				</Link>
-                <p className="text-primary font-bold">৳{item.price}</p>
-              </div>
+          {items.map((item) => {
+            const disabled = selected.length
+              ? selected[0].providerId !== item.providerId
+              : false;
 
-              {/* Quantity Toggles */}
-              <div className="flex items-center bg-muted/50 rounded-xl p-1 border">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8 rounded-lg"
-                  onClick={() =>
-                    updateQuantity(item.mealId, Math.max(1, item.quantity - 1))
-                  }
-                >
-                  <Minus size={14} />
-                </Button>
-                <span className="w-8 text-center font-black text-sm">
-                  {item.quantity}
-                </span>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8 rounded-lg"
-                  onClick={() => updateQuantity(item.mealId, item.quantity + 1)}
-                >
-                  <Plus size={14} />
-                </Button>
-              </div>
-
-              <Button
-                variant="ghost"
-                size="icon"
-                className="text-muted-foreground hover:text-red-500 rounded-full"
-                onClick={() => removeFromCart(item.mealId)}
+            return (
+              <div
+                key={item.mealId}
+                className={`group flex flex-col sm:flex-row gap-4 bg-card border border-border p-4 rounded-2xl transition-all duration-200 hover:shadow-lg hover:border-primary/20 ${
+                  disabled ? "opacity-50" : ""
+                }`}
               >
-                <Trash2 size={18} />
-              </Button>
-            </div>
-          ))}
+                {/* Checkbox */}
+                <div className="flex items-start pt-1">
+                  <Checkbox
+                    checked={selected.some((i) => i.mealId === item.mealId)}
+                    onCheckedChange={(checked) => {
+                      if (checked) {
+                        selectItems([item.mealId]);
+                      } else {
+                        unselectItems([item.mealId]);
+                      }
+                    }}
+                    disabled={disabled}
+                    className="size-5"
+                  />
+                </div>
+
+                {/* Image */}
+                <div className="relative">
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-full sm:w-28 h-24 object-cover rounded-xl border"
+                  />
+                </div>
+
+                {/* Content */}
+                <div className="flex-1 flex flex-col justify-between">
+                  <div className="space-y-1">
+                    <Link href={`/meals/${item.mealId}`}>
+                      <p className="font-semibold text-base sm:text-lg hover:text-primary transition">
+                        {item.name}
+                      </p>
+                    </Link>
+
+                    <p className="text-lg font-bold text-primary">
+                      ৳{item.price}
+                    </p>
+                  </div>
+
+                  {/* Mobile actions */}
+                  <div className="flex items-center justify-between mt-4 sm:hidden">
+                    <div className="flex items-center border rounded-lg bg-muted/40">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8"
+                        onClick={() =>
+                          updateQuantity(
+                            item.mealId,
+                            Math.max(1, item.quantity - 1),
+                          )
+                        }
+                      >
+                        <Minus size={14} />
+                      </Button>
+
+                      <span className="w-8 text-center text-sm font-semibold">
+                        {item.quantity}
+                      </span>
+
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8"
+                        onClick={() =>
+                          updateQuantity(item.mealId, item.quantity + 1)
+                        }
+                      >
+                        <Plus size={14} />
+                      </Button>
+                    </div>
+
+                    <Button
+                      disabled={selected.length == 0}
+                      variant="ghost"
+                      size="icon"
+                      className="text-muted-foreground hover:text-red-500"
+                      onClick={() => removeFromCart(item.mealId)}
+                    >
+                      <Trash2 size={18} />
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Desktop actions */}
+                <div className="hidden sm:flex items-center gap-3">
+                  <div className="flex items-center border rounded-lg bg-muted/40">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8"
+                      onClick={() =>
+                        updateQuantity(
+                          item.mealId,
+                          Math.max(1, item.quantity - 1),
+                        )
+                      }
+                    >
+                      <Minus size={14} />
+                    </Button>
+
+                    <span className="w-8 text-center text-sm font-semibold">
+                      {item.quantity}
+                    </span>
+
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8"
+                      onClick={() =>
+                        updateQuantity(item.mealId, item.quantity + 1)
+                      }
+                    >
+                      <Plus size={14} />
+                    </Button>
+                  </div>
+
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-muted-foreground hover:text-red-500"
+                    onClick={() => removeFromCart(item.mealId)}
+                  >
+                    <Trash2 size={18} />
+                  </Button>
+                </div>
+              </div>
+            );
+          })}
         </div>
 
         {/* SUMMARY PANEL */}
@@ -148,14 +254,13 @@ export default function CartPage() {
             </div>
 
             <Button
-              asChild
               size="xl"
               className="w-full rounded-2xl font-black text-lg gap-2 shadow-xl shadow-primary/20 hover:scale-[1.02] transition-all"
+              disabled={selected.length === 0}
+              onClick={() => router.push("/checkout")}
             >
-              <Link href="/checkout">
-                Checkout Now
-                <ArrowRight size={20} />
-              </Link>
+              Checkout Now
+              <ArrowRight size={20} />
             </Button>
 
             <p className="text-[10px] text-center text-muted-foreground font-bold uppercase tracking-widest">
