@@ -4,6 +4,7 @@ import { Prisma } from "../../generated/prisma/client";
 import { AppError } from "../errors/AppError";
 
 const globalErrorHandler = (err: unknown, req: Request, res: Response, next: NextFunction) => {
+	
 	let statusCode = 500;
 	let message = "Internal server error";
 

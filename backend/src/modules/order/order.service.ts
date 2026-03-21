@@ -88,18 +88,18 @@ const createOrder = async (userId: string, payload: CreateOrderPayload) => {
   
   const io = getIo();
   if (io) {
-    // Step 1: Collect provider user IDs and count orders per provider
+    //  Collect provider user IDs and count orders per provider
     const providerOrdersCount = new Map<string, number>();
 
     for (const meal of meals) {
       const id = meal.provider.userId;
       providerOrdersCount.set(id, (providerOrdersCount.get(id) || 0) + 1);
     }
-    console.log("Provider ids", providerOrdersCount.keys());
-    // Step 2: Get unique provider IDs
+   
+    // Get unique provider IDs
     const providerUniqueIds = Array.from(providerOrdersCount.keys());
 
-    // Step 3: Collect all active connections for these providers
+    // Collect all active connections for these providers
     const allConnections: { socketId: string; id: string }[] = [];
 
     for (const id of providerUniqueIds) {
@@ -109,12 +109,10 @@ const createOrder = async (userId: string, payload: CreateOrderPayload) => {
       }
     }
 
-    // Step 4: Emit notifications
+    //  Emit notifications
     allConnections.forEach((connection) => {
       const orderCount = providerOrdersCount.get(connection.id);
-      console.log("connection", orderCount);
       if (orderCount && orderCount > 0) {
-        console.log("event emitted");
         io.to(connection.socketId).emit("order:placed", {
           message: `You have received ${orderCount} new order${orderCount > 1 ? "s" : ""}`,
         });

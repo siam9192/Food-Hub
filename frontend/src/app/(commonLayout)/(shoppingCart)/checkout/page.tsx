@@ -31,7 +31,8 @@ export default function CheckoutPage() {
   };
 
   const handlePlaceOrder = async () => {
-    if (selectedItems.length === 0) return toast.error("Please select an item first");
+    if (selectedItems.length === 0)
+      return toast.error("Please select an item first");
     if (!address.trim())
       return toast.error("Please provide a delivery address");
     if (!session.data) return toast.error("Please sign in first");

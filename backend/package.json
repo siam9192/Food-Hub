@@ -6,6 +6,7 @@
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"dev": "npx tsx watch src/server.ts",
+		"de":"ts-node-dev --respawn --transpile-only src/server.ts",
 		"seed:admin": "npx tsx src/scripts/seedAdmin.ts",
 		"seed:providers": "npx tsx src/scripts/seedProvider.ts",
 		"seed:meals": "npx tsx src/scripts/seedMeals.ts",
@@ -38,6 +39,7 @@
 		"pg": "^8.17.2",
 		"socket.io": "^4.8.3",
 		"socket.io-client": "^4.8.3",
+		"ts-node-dev": "^2.0.0",
 		"zod": "^4.3.6"
 	}
 }

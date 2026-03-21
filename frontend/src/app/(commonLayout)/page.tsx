@@ -9,18 +9,18 @@ import { categoryService } from "@/service/category.service";
 import { providerService } from "@/service/provider.service";
 
 export default async function HomePage() {
-	const categoriesRes = await categoryService.getAll();
-	const providersRes = await providerService.getPublicProviders();
+  const categoriesRes = await categoryService.getAll();
+  const providersRes = await providerService.getPublicProviders();
 
-	return (
-		<div>
-			<Hero />
-			<CategoriesSection categories={categoriesRes.data} />
-			<FeaturedProviders providers={providersRes.data} />
-			<HowItWorks />
-			<Testimonials />
-			<ReadyToOrder />
-			<Footer />
-		</div>
-	);
+  return (
+    <div>
+      <Hero />
+      <CategoriesSection categories={categoriesRes.data} />
+      <FeaturedProviders providers={providersRes.data} />
+      <HowItWorks />
+      <Testimonials />
+      <ReadyToOrder />
+      <Footer />
+    </div>
+  );
 }

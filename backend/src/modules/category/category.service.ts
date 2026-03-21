@@ -4,71 +4,70 @@ import slugify from "../../helpers/slugify";
 import { prisma } from "../../lib/prisma";
 
 const createCategory = async (
-	data: Omit<Category, "id" | "createdAt" | "updatedAt" | "meals" | "slug">,
+  data: Omit<Category, "id" | "createdAt" | "updatedAt" | "meals" | "slug">,
 ) => {
-	if (!data.name) {
-		throw new AppError(400, "Category name is required");
-	}
+  if (!data.name) {
+    throw new AppError(400, "Category name is required");
+  }
 
-	const slug = slugify(data.name);
+  const slug = slugify(data.name);
 
-	const existingCategory = await prisma.category.findFirst({
-		where: {
-			OR: [{ name: data.name }, { slug }],
-		},
-	});
+  const existingCategory = await prisma.category.findFirst({
+    where: {
+      OR: [{ name: data.name }, { slug }],
+    },
+  });
 
-	if (existingCategory) {
-		throw new AppError(409, "Category already exists");
-	}
+  if (existingCategory) {
+    throw new AppError(409, "Category already exists");
+  }
 
-	const result = await prisma.category.create({
-		data: {
-			name: data.name,
-			slug,
-		},
-	});
+  const result = await prisma.category.create({
+    data: {
+      name: data.name,
+      slug,
+    },
+  });
 
-	return result;
+  return result;
 };
 
 const getAllCategories = async () => {
-	const result = await prisma.category.findMany({
-		orderBy: {
-			createdAt: "desc",
-		},
-	});
-
-	return result;
+  const result = await prisma.category.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+  return result;
 };
 
 const updateCategory = async (categoryId: string, data: Partial<Category>) => {
-	if (!categoryId) {
-		throw new AppError(400, "Category ID is required");
-	}
+  if (!categoryId) {
+    throw new AppError(400, "Category ID is required");
+  }
 
-	const updateData: Partial<Category> = { ...data };
+  const updateData: Partial<Category> = { ...data };
 
-	// Auto-update slug if name changes
-	if (data.name) {
-		updateData.slug = slugify(data.name);
-	}
+  // Auto-update slug if name changes
+  if (data.name) {
+    updateData.slug = slugify(data.name);
+  }
 
-	return prisma.category.update({
-		where: { id: categoryId },
-		data: updateData,
-	});
+  return prisma.category.update({
+    where: { id: categoryId },
+    data: updateData,
+  });
 };
 
 const deleteCategory = async (categoryId: string) => {
-	return prisma.category.delete({
-		where: { id: categoryId },
-	});
+  return prisma.category.delete({
+    where: { id: categoryId },
+  });
 };
 
 export const categoryService = {
-	createCategory,
-	getAllCategories,
-	updateCategory,
-	deleteCategory,
+  createCategory,
+  getAllCategories,
+  updateCategory,
+  deleteCategory,
 };

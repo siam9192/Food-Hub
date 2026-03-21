@@ -13,9 +13,8 @@ const io = new Server(server, {
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
     exposedHeaders: ["Set-Cookie"],
-    credentials:true
+    credentials: true,
   },
-  
 });
 
 initIo(io);
@@ -24,7 +23,6 @@ async function main() {
   try {
     await prisma.$connect();
     console.log("Connected to the database successfully.");
-
     server.listen(PORT, () => {
       console.log(`Server is running on http://localhost:${PORT}`);
     });
