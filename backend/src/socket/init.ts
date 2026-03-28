@@ -1,7 +1,7 @@
 import { Server } from "socket.io";
-import { socketAuth } from "../middlewares/socketAuth.middleware";
-import { registerSocketEvents } from "./events";
-import {  setConnectedUser } from "./store-connections";
+import { socketAuth } from "../middlewares/socketAuth.middleware.js";
+import { registerSocketEvents } from "./events.js";
+import { setConnectedUser } from "./store-connections.js";
 
 let io: Server | null;
 

@@ -1,8 +1,9 @@
 import { RequestHandler } from "express";
-import { UserRole } from "../../../generated/prisma/enums";
-import { AppError } from "../../errors/AppError";
-import { catchAsync } from "../../utils/catchAsync";
-import { categoryService } from "./category.service";
+
+import { AppError } from "../../errors/AppError.js";
+import { catchAsync } from "../../utils/catchAsync.js";
+import { categoryService } from "./category.service.js";
+import { UserRole } from "../../prisma-output/enums.js";
 
 const createCategory: RequestHandler = catchAsync(async (req, res) => {
   if (!req.user) {

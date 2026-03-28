@@ -1,6 +1,5 @@
-import { role } from "better-auth/plugins";
-import { UserRole } from "../../generated/prisma/enums";
-import { prisma } from "../lib/prisma";
+import { prisma } from "../lib/prisma.js";
+import { UserRole } from "../prisma-output/enums.js";
 
 function requireEnv(name: string): string {
   const value = process.env[name];
@@ -154,7 +153,7 @@ async function main() {
       });
 
       if (!res.ok) {
-        let errorMsg = "Unknown error";
+        let errorMsg = "Unknown error.js";
 
         try {
           const err = await res.json();

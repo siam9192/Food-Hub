@@ -1,53 +1,54 @@
 import { NextFunction, Request, Response } from "express";
-import { auth } from "../lib/auth";
+import { auth } from "../lib/auth.js";
 
 export enum UserRole {
-	customer = "CUSTOMER",
-	provider = "PROVIDER",
-	admin = "ADMIN",
+  customer = "CUSTOMER",
+  provider = "PROVIDER",
+  admin = "ADMIN",
 }
 
 export const authMiddleware = (...roles: UserRole[]) => {
-	return async (req: Request, res: Response, next: NextFunction) => {
-		try {
-			const session = await auth.api.getSession({
-				headers: req.headers as any,
-			});
-            
-			if (!session) {
-				return res.status(401).json({
-					success: false,
-					message: "You are not authorized!",
-				});
-			}
+  return async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const session = await auth.api.getSession({
+        headers: req.headers as any,
+      });
 
-			if (!session?.user.emailVerified) {
-				return res.status(403).json({
-					success: false,
-					message: "Email verification required. Please verify your email!",
-				});
-			}
+      if (!session) {
+        return res.status(401).json({
+          success: false,
+          message: "You are not authorized!",
+        });
+      }
 
-			const userRole = session.user.role as UserRole;
+      if (!session?.user.emailVerified) {
+        return res.status(403).json({
+          success: false,
+          message: "Email verification required. Please verify your email!",
+        });
+      }
 
-			req.user = {
-				id: session?.user.id!,
-				email: session?.user.email!,
-				emailVerified: session?.user.emailVerified as boolean,
-				name: session?.user.name!,
-				role: userRole,
-			};
+      const userRole = session.user.role as UserRole;
 
-			if (roles.length && !roles.includes(userRole)) {
-				return res.status(403).json({
-					success: false,
-					message: "Forbidden! You do not have permission to access this resource!",
-				});
-			}
+      req.user = {
+        id: session?.user.id!,
+        email: session?.user.email!,
+        emailVerified: session?.user.emailVerified as boolean,
+        name: session?.user.name!,
+        role: userRole,
+      };
 
-			next();
-		} catch (error) {
-			next(error);
-		}
-	};
+      if (roles.length && !roles.includes(userRole)) {
+        return res.status(403).json({
+          success: false,
+          message:
+            "Forbidden! You do not have permission to access this resource!",
+        });
+      }
+
+      next();
+    } catch (error) {
+      next(error);
+    }
+  };
 };

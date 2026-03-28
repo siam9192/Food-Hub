@@ -1,7 +1,7 @@
-import { OrderStatus } from "../../../generated/prisma/enums";
-import { AppError } from "../../errors/AppError";
-import { prisma } from "../../lib/prisma";
-import { CreateReviewPayload } from "../../types/review.type";
+import { OrderStatus } from "../../prisma-output/enums.js";
+import { AppError } from "../../errors/AppError.js";
+import { prisma } from "../../lib/prisma.js";
+import { CreateReviewPayload } from "../../types/review.type.js";
 
 const createReview = async (
   customerId: string,
@@ -51,7 +51,7 @@ const createReview = async (
   const review = await prisma.review.create({
     data: {
       rating: payload.rating,
-      
+
       comment: payload.comment ?? null,
       orderId: payload.orderId,
       mealId: payload.mealId,

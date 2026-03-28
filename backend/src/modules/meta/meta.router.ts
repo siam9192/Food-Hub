@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { metaControllers } from "./meta.controller";
-import { authMiddleware, UserRole } from "../../middlewares/auth.middleware";
+import { metaControllers } from "./meta.controller.js";
+import { authMiddleware, UserRole } from "../../middlewares/auth.middleware.js";
 
 const router = Router();
 

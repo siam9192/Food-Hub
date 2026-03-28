@@ -2,17 +2,17 @@ import { toNodeHandler } from "better-auth/node";
 import express, { Application } from "express";
 
 import cors from "cors";
-import "dotenv/config";
-import { auth } from "./lib/auth";
-import errorHandler from "./middlewares/globalErrorHandler";
-import notFoundHandler from "./middlewares/notFoundHandler";
-import { categoryRoute } from "./modules/category/category.route";
-import { mealRoute } from "./modules/meal/meal.route";
-import { orderRoute } from "./modules/order/order.route";
-import { providerRoute } from "./modules/provider/provider.route";
-import { reviewRoute } from "./modules/review/review.route";
-import { userRoute } from "./modules/user/user.route";
-import { metaRouter } from "./modules/meta/meta.router";
+import "dotenv/config.js";
+import { auth } from "./lib/auth.js";
+import errorHandler from "./middlewares/globalErrorHandler.js";
+import notFoundHandler from "./middlewares/notFoundHandler.js";
+import { categoryRoute } from "./modules/category/category.route.js";
+import { mealRoute } from "./modules/meal/meal.route.js";
+import { orderRoute } from "./modules/order/order.route.js";
+import { providerRoute } from "./modules/provider/provider.route.js";
+import { reviewRoute } from "./modules/review/review.route.js";
+import { userRoute } from "./modules/user/user.route.js";
+import { metaRouter } from "./modules/meta/meta.router.js";
 
 const app: Application = express();
 
@@ -23,10 +23,10 @@ const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:4000",
   "http://localhost:5000",
-  "5000"
+  "5000",
 ].filter(Boolean);
 
-export function originCallback(origin: string|undefined, callback: any) {
+export function originCallback(origin: string | undefined, callback: any) {
   // Allow requests with no origin (mobile apps, Postman, etc.)
   if (!origin) return callback(null, true);
 

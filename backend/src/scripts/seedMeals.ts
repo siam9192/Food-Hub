@@ -1,6 +1,7 @@
-import { DietaryType } from "../../generated/prisma/enums";
-import { prisma } from "../lib/prisma";
-import { categoryService } from "../modules/category/category.service";
+import { DietaryType } from "../prisma-output/enums.js";
+import { prisma } from "../lib/prisma.js";
+import { categoryService } from "../modules/category/category.service.js";
+
 
 const rawCategories = [
   "Traditional Cuisine",

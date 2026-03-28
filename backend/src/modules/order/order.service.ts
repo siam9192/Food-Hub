@@ -1,12 +1,12 @@
-import { OrderStatus } from "../../../generated/prisma/enums";
-import { orderConfirmationEmail } from "../../emails/orderConfirmation";
-import { AppError } from "../../errors/AppError";
-import { transporter } from "../../lib/mailer";
-import { prisma } from "../../lib/prisma";
-import { getIo } from "../../socket/init";
-import { getUsersByIds } from "../../socket/store-connections";
-import { CreateOrderPayload } from "../../types/order.type";
-import { AuthUser } from "../../types/utils.type";
+import { OrderStatus } from "../../prisma-output/enums.js";
+import { orderConfirmationEmail } from "../../emails/orderConfirmation.js";
+import { AppError } from "../../errors/AppError.js";
+import { transporter } from "../../lib/mailer.js";
+import { prisma } from "../../lib/prisma.js";
+import { getIo } from "../../socket/init.js";
+import { getUsersByIds } from "../../socket/store-connections.js";
+import { CreateOrderPayload } from "../../types/order.type.js";
+import { AuthUser } from "../../types/utils.type.js";
 
 const createOrder = async (userId: string, payload: CreateOrderPayload) => {
   if (!payload.items || payload.items.length === 0) {
@@ -36,14 +36,14 @@ const createOrder = async (userId: string, payload: CreateOrderPayload) => {
   });
 
   const providerId = meals[0]!.providerId;
-  const uniqueProviders = new Set(meals.map((m) => m.providerId));
+  const uniqueProviders = new Set(meals.map((m:any) => m.providerId));
 
   if (uniqueProviders.size > 1) {
     throw new AppError(400, "Meals must be from a single provider");
   }
 
   const orderItemsData = payload.items.map((item) => {
-    const meal = meals.find((m) => m.id === item.mealId)!;
+    const meal = meals.find((m:any) => m.id === item.mealId)!;
     return {
       mealId: meal.id,
       mealName: meal.name,
@@ -85,7 +85,6 @@ const createOrder = async (userId: string, payload: CreateOrderPayload) => {
     );
   }
 
-  
   const io = getIo();
   if (io) {
     //  Collect provider user IDs and count orders per provider
@@ -95,7 +94,7 @@ const createOrder = async (userId: string, payload: CreateOrderPayload) => {
       const id = meal.provider.userId;
       providerOrdersCount.set(id, (providerOrdersCount.get(id) || 0) + 1);
     }
-   
+
     // Get unique provider IDs
     const providerUniqueIds = Array.from(providerOrdersCount.keys());
 
@@ -137,9 +136,8 @@ const getMyOrders = async (userId: string) => {
         include: {
           meal: true,
         },
-        
       },
-      review:true
+      review: true,
     },
     orderBy: {
       createdAt: "desc",
@@ -296,7 +294,7 @@ const updateOrderStatus = async (orderId: string, newStatus: OrderStatus) => {
 
   if (io && customerUserId) {
     const connections = getUsersByIds(customerUserId);
-    console.log("Connections",connections)
+    console.log("Connections", connections);
     if (connections.length) {
       const socketIds = connections.map((c) => c.socketId);
 

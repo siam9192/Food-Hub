@@ -6,7 +6,7 @@
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"dev": "npx tsx watch src/server.ts",
-		"de":"ts-node-dev --respawn --transpile-only src/server.ts",
+		"st": "ts-node-dev --respawn --transpile-only src/app/server.ts",
 		"seed:admin": "npx tsx src/scripts/seedAdmin.ts",
 		"seed:providers": "npx tsx src/scripts/seedProvider.ts",
 		"seed:meals": "npx tsx src/scripts/seedMeals.ts",
@@ -16,7 +16,7 @@
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
-	"type": "commonjs",
+	"type": "module",
 	"devDependencies": {
 		"@types/cors": "^2.8.19",
 		"@types/express": "^5.0.6",
@@ -35,6 +35,7 @@
 		"cors": "^2.8.6",
 		"dotenv": "^17.2.3",
 		"express": "^5.2.1",
+		"http-status": "^2.1.0",
 		"nodemailer": "^7.0.13",
 		"pg": "^8.17.2",
 		"socket.io": "^4.8.3",

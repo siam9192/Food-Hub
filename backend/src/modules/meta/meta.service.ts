@@ -1,6 +1,6 @@
-import { OrderStatus } from "../../../generated/prisma/enums";
-import { prisma } from "../../lib/prisma";
-import { AuthUser } from "../../types/utils.type";
+import { OrderStatus } from "../../prisma-output/enums.js";
+import { prisma } from "../../lib/prisma.js";
+import { AuthUser } from "../../types/utils.type.js";
 
 const generateFakeProgress = (): number => {
   const isDown = Math.random() < 0.5;

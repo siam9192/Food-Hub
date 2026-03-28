@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { authMiddleware, UserRole } from "../../middlewares/auth.middleware";
-import { userController } from "./user.controller";
+import { authMiddleware, UserRole } from "../../middlewares/auth.middleware.js";
+import { userController } from "./user.controller.js";
 
 const router = Router();
 
@@ -10,12 +10,16 @@ router.patch("/users/me", authMiddleware(), userController.updateMyProfile);
 router.patch("/users/:userId/role", userController.updateUserRoleToProvider);
 
 /* --------------- ADMIN ------------------- */
-router.get("/users/admin/users", authMiddleware(UserRole.admin), userController.getAllUsers);
+router.get(
+  "/users/admin/users",
+  authMiddleware(UserRole.admin),
+  userController.getAllUsers,
+);
 
 router.patch(
-	"/users/admin/users/:userId/status",
-	authMiddleware(UserRole.admin),
-	userController.updateUserStatus,
+  "/users/admin/users/:userId/status",
+  authMiddleware(UserRole.admin),
+  userController.updateUserStatus,
 );
 
 export const userRoute = router;

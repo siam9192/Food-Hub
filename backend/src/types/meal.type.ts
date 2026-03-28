@@ -1,15 +1,15 @@
-import { DietaryType } from "../../generated/prisma/enums";
+import { DietaryType } from "../prisma-output/enums.js";
 
 export type GetMealsParams = {
-	search?: string | undefined;
-	categoryId?: string | undefined;
-	providerId?: string | undefined;
-	dietaryPreference?: DietaryType | undefined;
-	isAvailable?: boolean | undefined;
+  search?: string | undefined;
+  categoryId?: string | undefined;
+  providerId?: string | undefined;
+  dietaryPreference?: DietaryType | undefined;
+  isAvailable?: boolean | undefined;
 
-	page: number;
-	limit: number;
-	skip: number;
-	sortBy: string;
-	sortOrder: "asc" | "desc";
+  page: number;
+  limit: number;
+  skip: number;
+  sortBy: string;
+  sortOrder: "asc" | "desc";
 };

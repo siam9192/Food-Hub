@@ -1,8 +1,8 @@
 import { RequestHandler } from "express";
-import { UserRole } from "../../../generated/prisma/enums";
-import { AppError } from "../../errors/AppError";
-import { catchAsync } from "../../utils/catchAsync";
-import { orderService } from "./order.service";
+import { UserRole } from "../../prisma-output/enums.js";
+import { AppError } from "../../errors/AppError.js";
+import { catchAsync } from "../../utils/catchAsync.js";
+import { orderService } from "./order.service.js";
 
 const createOrder: RequestHandler = catchAsync(async (req, res) => {
   if (!req.user) {

@@ -2,7 +2,7 @@
 
 [![API Status](https://img.shields.io/badge/API-Live-orange.svg?style=for-the-badge)](https://food-hub-server-lime.vercel.app/)
 [![Node.js](https://img.shields.io/badge/Node.js-20+-6DA55F?style=for-the-badge&logo=node.js)](https://nodejs.org/)
-[![Express.js](https://img.shields.io/badge/Express.js-5.0-000000?style=for-the-badge&logo=express)](https://expressjs.com/)
+[![express](https://img.shields.io/badge/express-5.0-000000?style=for-the-badge&logo=express)](https://expressjs.com/)
 [![Prisma](https://img.shields.io/badge/Prisma-7.3-2D3748?style=for-the-badge&logo=prisma)](https://www.prisma.io/)
 
 ## [Explanation Video](https://drive.google.com/file/d/1-n7CXgJ05I44VifH7hKICdp587Y7-ANc/view?usp=sharing)
@@ -39,7 +39,7 @@ This project follows a **Feature-Based Modular Architecture**. Instead of giant 
 | Layer          | Technology                           |
 | :------------- | :----------------------------------- |
 | **Runtime**    | Node.js (Target v20)                 |
-| **Framework**  | Express.js 5                         |
+| **Framework**  | express 5                            |
 | **Database**   | PostgreSQL with `@prisma/adapter-pg` |
 | **ORM**        | Prisma v7.3.0                        |
 | **Validation** | Zod                                  |

@@ -1,4 +1,4 @@
-import { UserRole } from "../../generated/prisma/enums";
+import { UserRole } from "../prisma-output/enums.js";
 
 export interface ConnectedUsers {
   id: string;
@@ -11,16 +11,16 @@ export function setConnectedUser(socketId: string, user: ConnectedUsers) {
   connectedUsers.set(socketId, user);
 }
 
-export function removeConnectedUser (socketId:string) {
-  connectedUsers.delete(socketId)
+export function removeConnectedUser(socketId: string) {
+  connectedUsers.delete(socketId);
 }
 
 export function getUserBySocketId(socketId: string) {
   return connectedUsers.get(socketId) ?? null;
 }
 
-export function getAllUsers () {
-return Array.from(connectedUsers)
+export function getAllUsers() {
+  return Array.from(connectedUsers);
 }
 
 export function getUsersByIds(...ids: string[]) {
@@ -34,6 +34,6 @@ export function getUsersByIds(...ids: string[]) {
     }
   }
 
-  console.log(users)
+  console.log(users);
   return users;
 }

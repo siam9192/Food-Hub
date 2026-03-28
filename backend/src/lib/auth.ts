@@ -1,68 +1,68 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { transporter } from "./mailer";
-import { prisma } from "./prisma";
+import { transporter } from "./mailer.js";
+import { prisma } from "./prisma.js";
 
 export const auth = betterAuth({
-	database: prismaAdapter(prisma, {
-		provider: "postgresql",
-	}),
+  database: prismaAdapter(prisma, {
+    provider: "postgresql",
+  }),
 
-	session: {
-		cookieCache: {
-			enabled: true,
-			maxAge: 10 * 60, // 5 minutes
-		},
-	},
-	advanced: {
-		cookiePrefix: "better-auth",
-		useSecureCookies: process.env.NODE_ENV === "production",
-		crossSubDomainCookies: {
-			enabled: false,
-		},
-		disableCSRFCheck: true, // Allow requests without Origin header (Postman, mobile apps, etc.)
-	},
+  session: {
+    cookieCache: {
+      enabled: true,
+      maxAge: 10 * 60, // 5 minutes
+    },
+  },
+  advanced: {
+    cookiePrefix: "better-auth",
+    useSecureCookies: process.env.NODE_ENV === "production",
+    crossSubDomainCookies: {
+      enabled: false,
+    },
+    disableCSRFCheck: true, // Allow requests without Origin header (Postman, mobile apps, etc.)
+  },
 
-	trustedOrigins: [process.env.APP_URL!],
+  trustedOrigins: [process.env.APP_URL!],
 
-	socialProviders: {
-		google: {
-			clientId: process.env.GOOGLE_CLIENT_ID as string,
-			clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-			accessType: "offline",
-			prompt: "select_account consent",
-		},
-	},
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      accessType: "offline",
+      prompt: "select_account consent",
+    },
+  },
 
-	user: {
-		additionalFields: {
-			role: {
-				type: "string",
-				defaultValue: "CUSTOMER",
-				required: false,
-			},
-			phone: {
-				type: "string",
-				required: false,
-			},
-			status: {
-				type: "string",
-				defaultValue: "ACTIVE",
-				required: false,
-			},
-		},
-	},
+  user: {
+    additionalFields: {
+      role: {
+        type: "string",
+        defaultValue: "CUSTOMER",
+        required: false,
+      },
+      phone: {
+        type: "string",
+        required: false,
+      },
+      status: {
+        type: "string",
+        defaultValue: "ACTIVE",
+        required: false,
+      },
+    },
+  },
 
-	emailAndPassword: {
-		enabled: true,
-		autoSignIn: false,
-		requireEmailVerification: true,
-		sendResetPassword: async ({ user, url }) => {
-			await transporter.sendMail({
-				from: '"FoodHub Security" <auth@foodhub.com>',
-				to: user.email,
-				subject: "Reset your FoodHub Password",
-				html: `
+  emailAndPassword: {
+    enabled: true,
+    autoSignIn: false,
+    requireEmailVerification: true,
+    sendResetPassword: async ({ user, url }) => {
+      await transporter.sendMail({
+        from: '"FoodHub Security" <auth@foodhub.com>',
+        to: user.email,
+        subject: "Reset your FoodHub Password",
+        html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e5e7eb; border-radius: 16px; overflow: hidden;">
           <div style="background: #16a34a; padding: 20px; text-align: center;">
             <h1 style="color: white; margin: 0;">FoodHub</h1>
@@ -77,20 +77,20 @@ export const auth = betterAuth({
           </div>
         </div>
         `,
-			});
-		},
-	},
+      });
+    },
+  },
 
-	emailVerification: {
-		sendOnSignUp: true,
-		autoSignInAfterVerification: true,
-		sendVerificationEmail: async ({ user, url, token }) => {
-			const verificationUrl = `${process.env.APP_URL}/verify-email?token=${token}`;
-			const info = await transporter.sendMail({
-				from: '"FoodHub" <contact@foodhub.com>',
-				to: user.email,
-				subject: "Verify your email – FoodHub",
-				text: `
+  emailVerification: {
+    sendOnSignUp: true,
+    autoSignInAfterVerification: true,
+    sendVerificationEmail: async ({ user, url, token }) => {
+      const verificationUrl = `${process.env.APP_URL}/verify-email?token=${token}`;
+      const info = await transporter.sendMail({
+        from: '"FoodHub" <contact@foodhub.com>',
+        to: user.email,
+        subject: "Verify your email – FoodHub",
+        text: `
 Hi ${user.name || "there"},
 
 Welcome to FoodHub 🍱
@@ -105,7 +105,7 @@ If you didn’t create this account, you can safely ignore this email.
 
 — FoodHub Team
 `,
-				html: `
+        html: `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -198,13 +198,13 @@ If you didn’t create this account, you can safely ignore this email.
 </body>
 </html>
 `,
-			});
-			console.log("Message sent:", info.messageId);
-			try {
-			} catch (error) {
-				console.error(error);
-				throw error;
-			}
-		},
-	},
+      });
+      console.log("Message sent:", info.messageId);
+      try {
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
+    },
+  },
 });

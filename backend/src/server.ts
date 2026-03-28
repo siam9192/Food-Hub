@@ -1,8 +1,8 @@
-import app, { originCallback } from "./app";
-import { prisma } from "./lib/prisma";
+import app, { originCallback } from "./app.js";
+import { prisma } from "./lib/prisma.js";
 import { Server } from "socket.io";
 import { createServer } from "node:http";
-import { initIo } from "./socket/init";
+import { initIo } from "./socket/init.js";
 const PORT = process.env.PORT || 4000;
 
 const server = createServer(app);

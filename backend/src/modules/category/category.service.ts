@@ -1,7 +1,7 @@
-import { Category } from "../../../generated/prisma/client";
-import { AppError } from "../../errors/AppError";
-import slugify from "../../helpers/slugify";
-import { prisma } from "../../lib/prisma";
+import { AppError } from "../../errors/AppError.js";
+import slugify from "../../helpers/slugify.js";
+import { prisma } from "../../lib/prisma.js";
+import { Category } from "../../prisma-output/client.js";
 
 const createCategory = async (
   data: Omit<Category, "id" | "createdAt" | "updatedAt" | "meals" | "slug">,

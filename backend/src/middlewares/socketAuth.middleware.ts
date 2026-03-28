@@ -1,12 +1,11 @@
 import { Socket } from "socket.io";
-import { AppError } from "../errors/AppError";
-import { statusCodes } from "better-auth";
-import { auth } from "../lib/auth";
-import { UserRole } from "../../generated/prisma/enums";
+import { AppError } from "../errors/AppError.js";
+import { auth } from "../lib/auth.js";
+import { UserRole } from "../prisma-output/enums.js";
+import status from "http-status";
 
 export function socketAuth() {
   return async (socket: Socket, next: (err?: Error) => void) => {
-    
     try {
       const session = await auth.api.getSession({
         headers: socket.handshake.headers as any,
@@ -19,7 +18,7 @@ export function socketAuth() {
       if (!session?.user.emailVerified) {
         return next(
           new AppError(
-            statusCodes.FORBIDDEN,
+            status.FORBIDDEN,
             "Email verification required. Please verify your email!",
           ),
         );
@@ -34,7 +33,7 @@ export function socketAuth() {
         name: session?.user.name!,
         role: userRole,
       };
-      
+
       next();
     } catch (error) {}
   };

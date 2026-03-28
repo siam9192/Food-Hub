@@ -1,4 +1,4 @@
-import { prisma } from "../lib/prisma";
+import { prisma } from "../lib/prisma.js";
 
 function requireEnv(name: string): string {
   const value = process.env[name];
@@ -44,7 +44,7 @@ async function seedAdmin() {
         body: JSON.stringify(adminData),
       },
     );
-console.log(signUpAdmin)
+    console.log(signUpAdmin);
     if (signUpAdmin.ok) {
       console.log("*****Admin Created");
       await prisma.user.update({
