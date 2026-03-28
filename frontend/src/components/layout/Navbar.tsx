@@ -287,7 +287,6 @@ function UserMenu({ user, onLogout }: { user: any; onLogout: () => void }) {
 /* ------------------------------------------------------------------ */
 
 function MobileMenu({ menu, pathname, user, onLogout }: any) {
-  const currentPathname = usePathname();
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -295,7 +294,7 @@ function MobileMenu({ menu, pathname, user, onLogout }: any) {
   }, [pathname]);
 
   return (
-    <Sheet open={open}>
+    <Sheet open={open} onOpenChange={(st)=>setOpen(st)}>
       <Button
         onClick={() => setOpen(true)}
         variant="ghost"
@@ -311,7 +310,6 @@ function MobileMenu({ menu, pathname, user, onLogout }: any) {
       >
         <SheetHeader className="p-6 border-b bg-muted/20">
           <SheetTitle className="flex items-center gap-2">
-            <span className="bg-primary p-1 rounded-md text-sm">🍱</span>
             <span className="font-bold tracking-tight">FoodHub</span>
           </SheetTitle>
         </SheetHeader>

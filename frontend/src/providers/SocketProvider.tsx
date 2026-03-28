@@ -31,10 +31,12 @@ const events = [
   "order:canceled",
 ];
 
+const matchers = [/^\/orders\/([^\/]+)$/];
+
 const SocketContext = createContext<Socket | null>(null);
 export default function SocketProvider({ children }: Props) {
   const [socket, setSocket] = useState<Socket | null>(null);
-  const pathname = usePathname()
+  const pathname = usePathname();
   const auth = useAuth();
   const user = auth.data?.user as User | undefined;
 
@@ -63,13 +65,17 @@ export default function SocketProvider({ children }: Props) {
     const handleEvent = async ({ message }: { message: string }) => {
       console.log("Event received");
 
-      const role = user.role.toLowerCase();
-      const routes = orderRoutes[role];
-
       if (message) showMessage(message);
 
-      if (routes) {
-        await revalidatePaths(routes);
+      const roleRoutes = orderRoutes[user.role.toLowerCase()] || [];
+      const pathsToRevalidate = [...roleRoutes];
+
+      if (matchers.some((matcher) => matcher.test(pathname))) {
+        pathsToRevalidate.push(pathname);
+      }
+
+      if (pathsToRevalidate.length) {
+        await revalidatePaths(pathsToRevalidate);
       }
     };
 
